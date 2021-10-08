@@ -90,6 +90,10 @@ int main (int argc, char const * argv[])
 	{
 		EnableFilter(socket);
 	}
+	else
+	{
+		DisableFilter(socket);
+	}
 
 	StartRequestPacket start_request;
 	if (!SendPacket(start_request, socket))
