@@ -13,9 +13,10 @@
 using namespace std;
 using namespace ce30_driver;
 
-#define ARG_HELP    UINT32_C(0x00000001)
-#define ARG_VERBOSE UINT32_C(0x00000002)
-#define ARG_STDOUT  UINT32_C(0x00000004)
+#define ARG_HELP            UINT32_C(0x00000001)
+#define ARG_VERBOSE         UINT32_C(0x00000002)
+#define ARG_STDOUT          UINT32_C(0x00000004)
+#define ARG_ENABLE_FILTER   UINT32_C(0x00010000)
 
 int main (int argc, char const * argv[])
 {
@@ -29,12 +30,13 @@ int main (int argc, char const * argv[])
 
 	struct csc_argv_option option[] =
 	{
-	{'d', "duration", CSC_TYPE_DOUBLE,    &arg_duration,   0, "How long to record"},
-	{'f', "filename", CSC_TYPE_STRING,    &arg_filename,   0, "The filename"},
-	{'l', "logfile",  CSC_TYPE_STRING,    &arg_logfile,    0, "The log filename"},
-	{'h', "help",     CSC_TYPE_U32,       &arg_flags,      ARG_HELP, "Show help"},
-	{'v', "verbose",  CSC_TYPE_U32,       &arg_flags,      ARG_VERBOSE, "Show verbose"},
-	{'s', "stdout",   CSC_TYPE_U32,       &arg_flags,      ARG_STDOUT, "Outputs pointdata to stdout"},
+	{'d', "duration",        CSC_TYPE_DOUBLE,    &arg_duration,   0, "How long to record"},
+	{'f', "filename",        CSC_TYPE_STRING,    &arg_filename,   0, "The filename"},
+	{'l', "logfile",         CSC_TYPE_STRING,    &arg_logfile,    0, "The log filename"},
+	{'h', "help",            CSC_TYPE_U32,       &arg_flags,      ARG_HELP, "Show help"},
+	{'v', "verbose",         CSC_TYPE_U32,       &arg_flags,      ARG_VERBOSE, "Show verbose"},
+	{'s', "stdout",          CSC_TYPE_U32,       &arg_flags,      ARG_STDOUT, "Outputs pointdata to stdout"},
+	{'F', "enable_filter",   CSC_TYPE_U32,       &arg_flags,      ARG_ENABLE_FILTER, "Enable filter"},
 	{CSC_ARGV_END}};
 
 	csc_argv_parseall (argv+1, option);
@@ -83,6 +85,11 @@ int main (int argc, char const * argv[])
 	}
 
 	fprintf (file_log, "CE30-D Version: %s\n", version_response.GetVersionString().c_str());
+
+	if (arg_flags & ARG_ENABLE_FILTER)
+	{
+		EnableFilter(socket);
+	}
 
 	StartRequestPacket start_request;
 	if (!SendPacket(start_request, socket))
