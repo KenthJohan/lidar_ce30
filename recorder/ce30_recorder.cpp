@@ -88,10 +88,14 @@ int main (int argc, char const * argv[])
 
 	if (arg_flags & ARG_ENABLE_FILTER)
 	{
+		fprintf (file_log, "CE30-D: %s\n", "enableFeatures 104876");
+		fprintf (file_log, "The only way to undo enableFeatures is to restart the LiDAR\n");
 		EnableFilter(socket);
 	}
 	else
 	{
+		fprintf (file_log, "CE30-D: %s\n", "disableFeatures 104876");
+		fprintf (file_log, "The only way to undo disableFeatures is to restart the LiDAR\n");
 		DisableFilter(socket);
 	}
 
