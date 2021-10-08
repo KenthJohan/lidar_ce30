@@ -17,6 +17,7 @@ using namespace ce30_driver;
 #define ARG_VERBOSE         UINT32_C(0x00000002)
 #define ARG_STDOUT          UINT32_C(0x00000004)
 #define ARG_ENABLE_FILTER   UINT32_C(0x00010000)
+#define ARG_DISABLE_FILTER   UINT32_C(0x00020000)
 
 int main (int argc, char const * argv[])
 {
@@ -37,6 +38,7 @@ int main (int argc, char const * argv[])
 	{'v', "verbose",         CSC_TYPE_U32,       &arg_flags,      ARG_VERBOSE, "Show verbose"},
 	{'s', "stdout",          CSC_TYPE_U32,       &arg_flags,      ARG_STDOUT, "Outputs pointdata to stdout"},
 	{'F', "enable_filter",   CSC_TYPE_U32,       &arg_flags,      ARG_ENABLE_FILTER, "Enable filter"},
+	{'D', "disable_filter",   CSC_TYPE_U32,       &arg_flags,      ARG_DISABLE_FILTER, "Disable filter"},
 	{CSC_ARGV_END}};
 
 	csc_argv_parseall (argv+1, option);
@@ -92,7 +94,7 @@ int main (int argc, char const * argv[])
 		fprintf (file_log, "The only way to undo enableFeatures is to restart the LiDAR\n");
 		EnableFilter(socket);
 	}
-	else
+	else if (arg_flags & ARG_DISABLE_FILTER)
 	{
 		fprintf (file_log, "CE30-D: %s\n", "disableFeatures 104876");
 		fprintf (file_log, "The only way to undo disableFeatures is to restart the LiDAR\n");
