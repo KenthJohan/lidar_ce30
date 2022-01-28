@@ -26,19 +26,21 @@ int main (int argc, char const * argv[])
 	char const * arg_logfile = "ce30_pointcloud.log";
 	double arg_duration = 0;
 	uint32_t arg_flags = 0;
+	uint32_t arg_recvn = 0;
 	FILE * file_out = NULL;
 	FILE * file_log = stdout;
 
 	struct csc_argv_option option[] =
 	{
-	{'d', "duration",        CSC_TYPE_DOUBLE,    &arg_duration,   0, "How long to record"},
-	{'f', "filename",        CSC_TYPE_STRING,    &arg_filename,   0, "The filename"},
-	{'l', "logfile",         CSC_TYPE_STRING,    &arg_logfile,    0, "The log filename"},
-	{'h', "help",            CSC_TYPE_U32,       &arg_flags,      ARG_HELP, "Show help"},
-	{'v', "verbose",         CSC_TYPE_U32,       &arg_flags,      ARG_VERBOSE, "Show verbose"},
-	{'s', "stdout",          CSC_TYPE_U32,       &arg_flags,      ARG_STDOUT, "Outputs pointdata to stdout"},
-	{'F', "enable_filter",   CSC_TYPE_U32,       &arg_flags,      ARG_ENABLE_FILTER, "Enable filter"},
-	{'D', "disable_filter",   CSC_TYPE_U32,       &arg_flags,      ARG_DISABLE_FILTER, "Disable filter"},
+	{'d', "duration",        CSC_TYPE_DOUBLE,    &arg_duration,    0, "How long to record"},
+	{'f', "filename",        CSC_TYPE_STRING,    &arg_filename,    0, "The filename"},
+	{'l', "logfile",         CSC_TYPE_STRING,    &arg_logfile,     0, "The log filename"},
+	{'h', "help",            CSC_TYPE_U32,       &arg_flags,       ARG_HELP, "Show help"},
+	{'v', "verbose",         CSC_TYPE_U32,       &arg_flags,       ARG_VERBOSE, "Show verbose"},
+	{'s', "stdout",          CSC_TYPE_U32,       &arg_flags,       ARG_STDOUT, "Outputs pointdata to stdout"},
+	{'F', "enable_filter",   CSC_TYPE_U32,       &arg_flags,       ARG_ENABLE_FILTER, "Enable filter"},
+	{'D', "disable_filter",  CSC_TYPE_U32,       &arg_flags,       ARG_DISABLE_FILTER, "Disable filter"},
+	{'N', "receive_n_frames",CSC_TYPE_U32,       &arg_recvn,       0, "Receive n frames. CE30 Lidar has actualy only 6 FPS. Receive 5 to get 6 FPS"},
 	{CSC_ARGV_END}};
 
 	csc_argv_parseall (argv+1, option);
